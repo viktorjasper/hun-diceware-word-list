@@ -1,193 +1,122 @@
 
 # Table of Contents
 
-1.  [Hungarian DiceWare word list](#orga5d79e1)
-    1.  [Design goals](#org5922a8d)
-        1.  [The words must be easy to remember.](#org8e4faad)
-        2.  [The words must be easy to type](#orgcd497b9)
-        3.  [The words must be short](#org5fb4797)
-        4.  [The words cannot be proper nouns.](#org9c8d194)
-    2.  [Method](#orge8bf674)
-        1.  [Candidate words are extracted from a Hungarian spelling dictionary](#orga6327b6)
-        2.  [The candidate extracted words are filtered](#org3d7680c)
-        3.  [Candidate words are stored into a database.](#orge58f36c)
-        4.  [Supporting words are extracted from the classical books.](#org345f060)
-        5.  [Supporting words are stored in a database](#org70b7099)
-        6.  [Candidate words are assigned two properties: length and support strength](#orgf3db6b1)
-        7.  [Candidate words are narrowed by support strength.](#org1b1fd6b)
-        8.  [Candidate words are ordered by lenght and the first 7776 word remain.](#org0385331)
-        9.  [Candidate words are exported to a text file.](#orgcbd5a07)
-    3.  [Removing extra notation used by the dictionary](#orgc20eba6)
-    4.  [Removing words having letters outside of [a-z] english to avoid confusion](#org6b40d5f)
-    5.  [Removing duplicates](#orgfe5540c)
-    6.  [Prefixing lines with the line lengths](#orgb27311b)
-    7.  [Sort lines (the result will be sorted by word length)](#org5ecabf9)
-    8.  [Remove words having only 0-3 letters](#orgc4df16f)
-    9.  [Remove words which are longer than ten characters](#org306f962)
-    10. [Leave only the first 7776 words.](#orgd60b933)
-    11. [Remove length prefixes and leave only the words.](#org97c8750)
-    12. [sort lines alphabetically](#org7b9b450)
+1.  [Hungarian DiceWare word list](#orge827ba7)
+    1.  [Design goals](#orga244821)
+        1.  [Easy to remember.](#orgea9fe2d)
+        2.  [Easy to type](#orgb908657)
+        3.  [Use short words if possible](#orgcea898d)
+        4.  [The words should not be names or abbreviations.](#orgbf10165)
+    2.  [Method](#org2d4eee1)
+        1.  [Candidate words are extracted from a Hungarian spelling dictionary](#org113a3c9)
+        2.  [The candidate extracted words are filtered](#orgd47623f)
+        3.  [Supporting words are extracted from the classical books.](#orgd369562)
+        4.  [Candidate words are filtered using the words in the supporting word list](#org6a2cbd7)
+        5.  [Candidate words which are one or two characters long are removed from the candidate list.](#org59bffb0)
+        6.  [Candidate words are cut down to 7776 words](#orga8695aa)
+        7.  [Candidate words are exported to a text file.](#org88e4108)
 
 
-<a id="orga5d79e1"></a>
+<a id="orge827ba7"></a>
 
 # Hungarian DiceWare word list
 
 
-<a id="org5922a8d"></a>
+<a id="orga244821"></a>
 
 ## Design goals
 
 
-<a id="org8e4faad"></a>
+<a id="orgea9fe2d"></a>
 
-### The words must be easy to remember.
+### Easy to remember.
 
-Words used in classical litrature books are extracted. These are the
+Words used in classical literature books are extracted. These are the
 books that every Hungarian probably have read. Words that are used
 more frequent are considered easier to remember.
 
 
-<a id="orgcd497b9"></a>
+<a id="orgb908657"></a>
 
-### The words must be easy to type
+### Easy to type
 
-Ony words with no accent are selected. These are easier to type even
+Only words with no accent are selected. These are easier to type even
 on a foreign keyboard. (Probably the letters y and z should be
-excluded too.)
+excluded too. But there are not enough confirming words for that.)
 
 
-<a id="org5fb4797"></a>
+<a id="orgcea898d"></a>
 
-### The words must be short
+### Use short words if possible
 
 Short words are easier to remember and type.
 
 
-<a id="org9c8d194"></a>
+<a id="orgbf10165"></a>
 
-### The words cannot be proper nouns.
+### The words should not be names or abbreviations.
+
+Some of the names and abbreviations are cryptic and hard to remember.
 
 
-<a id="orge8bf674"></a>
+<a id="org2d4eee1"></a>
 
 ## Method
 
 
-<a id="orga6327b6"></a>
+<a id="org113a3c9"></a>
 
 ### Candidate words are extracted from a Hungarian spelling dictionary
 
-1.  Download latest Hungarian spelling dictionary used by LibreOffice
+The latest Hungarian spelling dictionary used by LibreOffice is
+downloaded:
+<https://raw.githubusercontent.com/LibreOffice/dictionaries/master/hu_HU/hu_HU.dic>
 
-    <https://raw.githubusercontent.com/LibreOffice/dictionaries/master/hu_HU/hu_HU.dic>
 
-
-<a id="org3d7680c"></a>
+<a id="orgd47623f"></a>
 
 ### The candidate extracted words are filtered
 
 The candidate words will contain only words confirming to the [Design
-goals](#org5922a8d).
+goals](#orga244821).
 
 
-<a id="orge58f36c"></a>
-
-### Candidate words are stored into a database.
-
-
-<a id="org345f060"></a>
+<a id="orgd369562"></a>
 
 ### Supporting words are extracted from the classical books.
 
-The supporting words must confirm to the [Design goals](#org5922a8d) 
+The supporting words must also confirm to the [Design goals](#orga244821).  Only
+unique words are added to the candidate list.
 
 
-<a id="org70b7099"></a>
+<a id="org6a2cbd7"></a>
 
-### Supporting words are stored in a database
+### Candidate words are filtered using the words in the supporting word list
 
-
-<a id="orgf3db6b1"></a>
-
-### Candidate words are assigned two properties: length and support strength
+If a candidate word is found amongst the supporting words the word is
+confirmed and used in final word list.
 
 
-<a id="org1b1fd6b"></a>
+<a id="org59bffb0"></a>
 
-### Candidate words are narrowed by support strength.
+### Candidate words which are one or two characters long are removed from the candidate list.
 
-So that only twice the needed words will remain.
-
-1.  Extreme weak words are removed.
-
-
-<a id="org0385331"></a>
-
-### Candidate words are ordered by lenght and the first 7776 word remain.
+These short words usually come from Latin quotations or
+Acronyms. These may not have meaning which makes them harder to
+remember.
 
 
-<a id="orgcbd5a07"></a>
+<a id="orga8695aa"></a>
+
+### Candidate words are cut down to 7776 words
+
+Candidate words are ordered by length and the first 7776 word is
+selected.
+
+
+<a id="org88e4108"></a>
 
 ### Candidate words are exported to a text file.
 
-1.  Candidate words are prefixed with the 6 digit number
-
-    Copy pasting the numbers from the beale wordlist.
-
-
-<a id="orgc20eba6"></a>
-
-## Removing extra notation used by the dictionary
-
-M-x replace-regex "\(\w*\)[ 	/-].\*" with \\1
-
-
-<a id="org6b40d5f"></a>
-
-## Removing words having letters outside of [a-z] english to avoid confusion
-
-
-<a id="orgfe5540c"></a>
-
-## Removing duplicates
-
-
-<a id="orgb27311b"></a>
-
-## Prefixing lines with the line lengths
-
-awk '{print length(), $0}' diceware.words.hun
-
-
-<a id="org5ecabf9"></a>
-
-## Sort lines (the result will be sorted by word length)
-
-
-<a id="orgc4df16f"></a>
-
-## Remove words having only 0-3 letters
-
-
-<a id="org306f962"></a>
-
-## Remove words which are longer than ten characters
-
-
-<a id="orgd60b933"></a>
-
-## Leave only the first 7776 words.
-
-
-<a id="org97c8750"></a>
-
-## Remove length prefixes and leave only the words.
-
-.\* \(.*\) with: \\1
-
-
-<a id="org7b9b450"></a>
-
-## sort lines alphabetically
+Words are prefixed with the 6 digit number.
 
