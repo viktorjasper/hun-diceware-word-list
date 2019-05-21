@@ -1,0 +1,50 @@
+* Generating the hungarian DiceWare dictionary
+** Design goals
+*** The words must be easy to remember.
+Words used in classical litrature books are extracted. These are the
+books that every Hungarian probably have read. Words that are used
+more frequent are considered easier to remember.
+*** The words must be easy to type
+Ony words with no accent are selected. These are easier to type even
+on a foreign keyboard. (Probably the letters y and z should be
+excluded too.)
+*** The words must be short
+Short words are easier to remember and type.
+*** The words cannot be proper nouns.
+** Method
+*** Candidate words are extracted from a Hungarian spelling dictionary
+**** Download latest Hungarian spelling dictionary used by LibreOffice 
+https://raw.githubusercontent.com/LibreOffice/dictionaries/master/hu_HU/hu_HU.dic
+*** The candidate extracted words are filtered 
+The candidate words will contain only words confirming to the [[*Design goals][Design
+goals]].
+
+*** Candidate words are stored into a database.
+*** Supporting words are extracted from the classical books. 
+The supporting words must confirm to the [[*Design goals][Design goals]] 
+*** Supporting words are stored in a database
+*** Candidate words are assigned two properties: length and support strength
+*** Candidate words are narrowed by support strength.
+So that only twice the needed words will remain.
+**** Extreme weak words are removed.
+
+
+*** Candidate words are ordered by lenght and the first 7776 word remain.
+*** Candidate words are exported to a text file.
+**** Candidate words are prefixed with the 6 digit number 
+Copy pasting the numbers from the beale wordlist.
+
+
+** Removing extra notation used by the dictionary
+M-x replace-regex "\(\w*\)[ 	/-].*" with \1
+** Removing words having letters outside of [a-z] english to avoid confusion
+** Removing duplicates
+** Prefixing lines with the line lengths
+awk '{print length(), $0}' diceware.words.hun
+** Sort lines (the result will be sorted by word length)
+** Remove words having only 0-3 letters
+** Remove words which are longer than ten characters
+** Leave only the first 7776 words.
+** Remove length prefixes and leave only the words.
+.* \(.*\) with: \1
+** sort lines alphabetically
