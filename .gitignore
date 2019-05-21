@@ -10,6 +10,7 @@
 # mac
 .DS_Store
 # dotnet core
+**/build_output/
 nupkg/
 *.suo
 *.user
