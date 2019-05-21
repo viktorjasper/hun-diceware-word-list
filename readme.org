@@ -1,4 +1,6 @@
-* Generating the hungarian DiceWare dictionary
+# hun-diceware-word-list
+
+* Hungarian DiceWare word list
 ** Design goals
 *** The words must be easy to remember.
 Words used in classical litrature books are extracted. These are the
